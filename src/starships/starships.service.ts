@@ -14,15 +14,16 @@ export class StarshipsService {
   ) {}
   async fetchFromSwapi() {
     try {
-      const response = await lastValueFrom(
-        this.httpService.get('https://swapi.dev/api/starships'),
-      );
-      return response.data.results;
+      const response = await lastValueFrom(this.httpService.get('https://swapi.dev/api/starships'));
+      const peopleData = response.data.results;
+
+      // Agregamos la URL de imagen para cada personaje
+      return peopleData.map((person, index) => ({
+        ...person,
+        image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`,
+      }));
     } catch (error) {
-      throw new HttpException(
-        'Error fetching data from SWAPI',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new HttpException('Error fetching data from SWAPI', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

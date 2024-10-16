@@ -14,15 +14,21 @@ export class FilmsService {
         private readonly httpService: HttpService,
         @InjectModel(Film.name) private readonly filmModel: Model<Film>,
       ) {}
-    async fetchFromSwapi() {
+      async fetchFromSwapi() {
         try {
           const response = await lastValueFrom(this.httpService.get('https://swapi.dev/api/films'));
-          return response.data.results;
+          const peopleData = response.data.results;
+    
+          // Agregamos la URL de imagen para cada personaje
+          return peopleData.map((person, index) => ({
+            ...person,
+            image: `https://starwars-visualguide.com/assets/img/films/${index + 1}.jpg`,
+          }));
         } catch (error) {
           throw new HttpException('Error fetching data from SWAPI', HttpStatus.INTERNAL_SERVER_ERROR);
         }
       }
-    
+
       // Guardo datos en la db
       async saveToDatabase(filmData: any[]) {
         try {

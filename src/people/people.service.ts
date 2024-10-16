@@ -89,6 +89,7 @@ export class PeopleService {
     try {
       console.log('Sincronizando datos de People...');
       const peopleData = await this.fetchFromSwapi();
+      console.log({peopleData})
       return await this.saveToDatabase(peopleData);
     } catch (error) {
       throw new HttpException('Error syncing people data', HttpStatus.INTERNAL_SERVER_ERROR);

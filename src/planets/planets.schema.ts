@@ -46,6 +46,9 @@ export class Planet {
 
   @Prop()
   url: string;
+
+  @Prop()
+  image:string
 }
 
 export const PlanetSchema = SchemaFactory.createForClass(Planet);

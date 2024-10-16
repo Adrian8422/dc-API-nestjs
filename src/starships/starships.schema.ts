@@ -58,6 +58,9 @@ export class Starship {
 
   @Prop()
   url: string;
+
+  @Prop()
+  image:string
 }
 
 export const StarshipSchema = SchemaFactory.createForClass(Starship);

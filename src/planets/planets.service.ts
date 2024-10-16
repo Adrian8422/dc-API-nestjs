@@ -13,10 +13,16 @@ export class PlanetsService {
         private readonly httpService: HttpService,
         @InjectModel(Planet.name) private readonly planetModel: Model<Planet>,
       ) {}
-    async fetchFromSwapi() {
+      async fetchFromSwapi() {
         try {
           const response = await lastValueFrom(this.httpService.get('https://swapi.dev/api/planets'));
-          return response.data.results;
+          const peopleData = response.data.results;
+    
+          // Agregamos la URL de imagen para cada personaje
+          return peopleData.map((person, index) => ({
+            ...person,
+            image: `https://starwars-visualguide.com/assets/img/planets/${index + 1}.jpg`,
+          }));
         } catch (error) {
           throw new HttpException('Error fetching data from SWAPI', HttpStatus.INTERNAL_SERVER_ERROR);
         }
