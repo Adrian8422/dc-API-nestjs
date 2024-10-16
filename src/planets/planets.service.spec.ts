@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlanetsService } from './planets.service';
 import { HttpModule } from '@nestjs/axios';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Planet, PlanetSchema } from './planets.schema'; 
-import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Planet } from './planets.schema';
 
 describe('PlanetsService', () => {
   let service: PlanetsService;
@@ -13,18 +12,17 @@ describe('PlanetsService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        HttpModule, 
-        MongooseModule.forFeature([{ name: Planet.name, schema: PlanetSchema }]), 
+        HttpModule, // No necesitamos MongooseModule.forFeature
       ],
       providers: [
         PlanetsService,
         {
-          provide: getModelToken(Planet.name), 
+          provide: getModelToken(Planet.name),
           useValue: {
-            find: jest.fn(), 
-            findById: jest.fn(), 
-            insertMany: jest.fn(), 
-            deleteMany: jest.fn(), 
+            find: jest.fn(),
+            findById: jest.fn(),
+            insertMany: jest.fn(),
+            deleteMany: jest.fn(),
           },
         },
       ],
@@ -37,6 +35,4 @@ describe('PlanetsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  
 });
