@@ -39,30 +39,37 @@ export class PeopleService {
   }
 
  
-  async allPeople(filters: { name?: string, height?: number }) {
+  async allPeople(filters: { name?: string; height?: number; limit?: number; offset?: number }) {
     try {
+      const { name, height, limit = 10, offset = 0 } = filters;
+  
+      // Construcción del query
       const query: any = {};
+      if (name) query.name = new RegExp(name, 'i'); // Insensible a mayúsculas
+      if (height) query.height = height;
   
-      if (filters.name) {
-        query.name = new RegExp(filters.name, 'i'); 
-      }
+      // Ejecución del query con paginación
+      const results = await this.peopleModel
+        .find(query)
+        .skip(offset)
+        .limit(limit)
+        .exec();
   
-      if (filters.height) {
-        query.height = filters.height; 
-      }
- 
-      
-
-      const results = await this.peopleModel.find(query)
-
+      const total = await this.peopleModel.countDocuments(query); // Conteo total para paginación
+  
       if (results.length === 0) {
-        throw new HttpException('No people found with the specified filters', HttpStatus.NOT_FOUND);
+        throw new HttpException('No se encontraron personas con los filtros especificados.', HttpStatus.NOT_FOUND);
       }
-      return results
+  
+      return { results, total };
     } catch (error) {
-      throw new HttpException(error.message,error.statusCode);
+      throw new HttpException(
+        error instanceof HttpException ? error.getResponse() : 'Error al obtener personas',
+        error instanceof HttpException ? error.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
+  
   async findByIdPeople(id: string) {
     try {
       const result = await this.peopleModel.findById(id);
