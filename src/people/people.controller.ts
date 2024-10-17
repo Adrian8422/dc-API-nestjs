@@ -10,13 +10,8 @@ export class PeopleController {
     return this.peopleService.syncPeople();
   }
   @Get()
-  async findAll(
-    @Query('name') name?: string,
-    @Query('height') height?: number,
-    @Query('limit') limit?: number,
-    @Query('offset') offset?: number,
-  ) {
-    return this.peopleService.allPeople({ name, height, limit, offset });
+  async findAll(@Query('name') name?: string, @Query('height') height?: number) {
+    return this.peopleService.allPeople({ name, height });
   }
 
   @Get(':id')

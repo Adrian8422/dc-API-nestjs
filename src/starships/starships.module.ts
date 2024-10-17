@@ -13,6 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot(), 
   ],
   providers: [StarshipsService],
-  controllers: [StarshipsController]
+  controllers: [StarshipsController],
+  exports: [StarshipsService, MongooseModule]
 })
 export class StarshipsModule {}

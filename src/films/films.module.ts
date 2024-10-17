@@ -12,6 +12,7 @@ import { Film, FilmSchema } from './films.schema';
     HttpModule, 
     ScheduleModule.forRoot(),  ],
   providers: [FilmsService],
-  controllers: [FilmsController]
+  controllers: [FilmsController],
+  exports: [FilmsService, MongooseModule]
 })
 export class FilmsModule {}

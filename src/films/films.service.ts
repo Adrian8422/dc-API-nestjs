@@ -81,7 +81,26 @@ export class FilmsService {
       );
     }
   }
-  
+
+  async search(query?: string, limit: number = 10, offset: number = 0) {
+    try {
+        const filter: any = {};
+
+        // Si se proporciona un query, filtra por nombre
+        if (query) {
+            filter.name = new RegExp(query, 'i'); // Utiliza expresión regular para hacer la búsqueda insensible a mayúsculas
+        }
+
+        // Realiza la búsqueda en la base de datos
+        return this.filmModel
+            .find(filter) // Filtra usando el objeto filter
+            .skip(offset) // Ignora los primeros `offset` resultados
+            .limit(limit); // Limita los resultados a `limit`
+    } catch (error) {
+        throw new HttpException('Error searching people', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
 // Cron job 
 @Cron('0 0 * * *')
 async syncFilm() {
