@@ -32,7 +32,7 @@ export class Planet {
   @Prop()
   population: string;
 
-  @Prop({ type: [String] }) 
+  @Prop({ type: [String] })
   residents: string[];
 
   @Prop({ type: [String] })
@@ -48,7 +48,7 @@ export class Planet {
   url: string;
 
   @Prop()
-  image:string
+  image: string;
 }
 
 export const PlanetSchema = SchemaFactory.createForClass(Planet);

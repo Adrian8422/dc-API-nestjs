@@ -11,13 +11,11 @@ describe('StarshipsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        HttpModule, // No necesitamos MongooseModule.forFeature en los tests unitarios
-      ],
+      imports: [HttpModule],
       providers: [
         StarshipsService,
         {
-          provide: getModelToken(Starship.name), // Mockeamos el modelo de Starship
+          provide: getModelToken(Starship.name), // Mockeo el modelo de Starship
           useValue: {
             find: jest.fn(),
             findById: jest.fn(),
@@ -35,6 +33,4 @@ describe('StarshipsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  // Aquí podrías agregar otros tests, como pruebas de métodos específicos del servicio.
 });

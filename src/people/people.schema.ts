@@ -54,8 +54,7 @@ export class People {
   url: string;
 
   @Prop()
-  image:string
-  
+  image: string;
 }
 
 export const PeopleSchema = SchemaFactory.createForClass(People);

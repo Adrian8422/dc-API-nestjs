@@ -10,12 +10,15 @@ export class PeopleController {
     return this.peopleService.syncPeople();
   }
   @Get()
-  async findAll(@Query('name') name?: string, @Query('height') height?: number) {
+  async findAll(
+    @Query('name') name?: string,
+    @Query('height') height?: number,
+  ) {
     return this.peopleService.allPeople({ name, height });
   }
 
   @Get(':id')
-  async findById(@Param('id') id:string) {
-    return this.peopleService.findByIdPeople(id)
+  async findById(@Param('id') id: string) {
+    return this.peopleService.findByIdPeople(id);
   }
 }

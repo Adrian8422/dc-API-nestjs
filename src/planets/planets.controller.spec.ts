@@ -7,7 +7,6 @@ describe('PlanetsController', () => {
   let controller: PlanetsController;
   let service: PlanetsService;
 
-  
   const mockPlanetsService = {
     allPlanets: jest.fn(),
     findByIdPlanet: jest.fn(),
@@ -26,7 +25,7 @@ describe('PlanetsController', () => {
     }).compile();
 
     controller = module.get<PlanetsController>(PlanetsController);
-    service = module.get<PlanetsService>(PlanetsService); 
+    service = module.get<PlanetsService>(PlanetsService);
   });
 
   it('should be defined', () => {
@@ -37,7 +36,7 @@ describe('PlanetsController', () => {
     it('should call planetsService.allPlanets with correct parameters', async () => {
       const query = { name: 'Tatooine', climate: 'arid' };
       await controller.GetAllFilms(query.name, query.climate);
-      expect(service.allPlanets).toHaveBeenCalledWith(query); 
+      expect(service.allPlanets).toHaveBeenCalledWith(query);
     });
   });
 
@@ -45,14 +44,14 @@ describe('PlanetsController', () => {
     it('should call planetsService.findByIdPlanet with correct ID', async () => {
       const id = '1';
       await controller.findById(id);
-      expect(service.findByIdPlanet).toHaveBeenCalledWith(id); 
+      expect(service.findByIdPlanet).toHaveBeenCalledWith(id);
     });
   });
 
   describe('syncPlanet', () => {
     it('should call planetsService.syncPlanet', async () => {
       await controller.syncPlanet();
-      expect(service.syncPlanet).toHaveBeenCalled(); 
+      expect(service.syncPlanet).toHaveBeenCalled();
     });
   });
 });

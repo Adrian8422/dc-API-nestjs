@@ -16,17 +16,17 @@ describe('PeopleController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PeopleController],
-      
+
       providers: [
         {
-          provide: PeopleService, 
+          provide: PeopleService,
           useValue: mockPeopleService,
         },
       ],
     }).compile();
 
     controller = module.get<PeopleController>(PeopleController);
-    service = module.get<PeopleService>(PeopleService); 
+    service = module.get<PeopleService>(PeopleService);
   });
 
   it('should be defined', () => {
@@ -44,7 +44,7 @@ describe('PeopleController', () => {
     it('should call peopleService.allPeople with correct parameters', async () => {
       const query = { name: 'Luke Skywalker', height: 172 };
       await controller.findAll(query.name, query.height);
-      expect(service.allPeople).toHaveBeenCalledWith(query); 
+      expect(service.allPeople).toHaveBeenCalledWith(query);
     });
   });
 
@@ -52,7 +52,7 @@ describe('PeopleController', () => {
     it('should call peopleService.findByIdPeople with correct ID', async () => {
       const id = '1';
       await controller.findById(id);
-      expect(service.findByIdPeople).toHaveBeenCalledWith(id); 
+      expect(service.findByIdPeople).toHaveBeenCalledWith(id);
     });
   });
 });

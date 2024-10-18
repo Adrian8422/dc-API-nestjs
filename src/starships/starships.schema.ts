@@ -44,10 +44,10 @@ export class Starship {
   @Prop()
   starship_class: string;
 
-  @Prop([String])  
+  @Prop([String])
   pilots: string[];
 
-  @Prop([String])  
+  @Prop([String])
   films: string[];
 
   @Prop()
@@ -60,7 +60,7 @@ export class Starship {
   url: string;
 
   @Prop()
-  image:string
+  image: string;
 }
 
 export const StarshipSchema = SchemaFactory.createForClass(Starship);

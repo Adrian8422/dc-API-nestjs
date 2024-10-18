@@ -11,9 +11,7 @@ describe('PlanetsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        HttpModule, // No necesitamos MongooseModule.forFeature
-      ],
+      imports: [HttpModule],
       providers: [
         PlanetsService,
         {

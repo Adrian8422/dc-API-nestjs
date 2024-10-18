@@ -13,104 +13,112 @@ export class PeopleService {
     @InjectModel(People.name) private readonly peopleModel: Model<People>,
   ) {}
 
-  // Obtengo data de la API externa
   async fetchFromSwapi() {
     try {
-      const response = await lastValueFrom(this.httpService.get('https://swapi.dev/api/people'));
+      const response = await lastValueFrom(
+        this.httpService.get('https://swapi.dev/api/people'),
+      );
       const peopleData = response.data.results;
 
-      // Agregamos la URL de imagen para cada personaje
       return peopleData.map((person, index) => ({
         ...person,
         image: `https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg`,
       }));
     } catch (error) {
-      throw new HttpException('Error fetching data from SWAPI', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error fetching data from SWAPI',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
- 
+
   async saveToDatabase(peopleData: any[]) {
     try {
-      await this.peopleModel.deleteMany(); // Elimina datos existentes antes de guardar nuevos
+      await this.peopleModel.deleteMany();
       return this.peopleModel.insertMany(peopleData);
     } catch (error) {
-      throw new HttpException('Error saving people to database', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error saving people to database',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
- 
-  async allPeople(filters: { name?: string, height?: number }) {
+  async allPeople(filters: { name?: string; height?: number }) {
     try {
       const query: any = {};
-  
-      if (filters.name) {
-        query.name = new RegExp(filters.name, 'i'); 
-      }
-  
-      if (filters.height) {
-        query.height = filters.height; 
-      }
- 
-      
 
-      const results = await this.peopleModel.find(query)
+      if (filters.name) {
+        query.name = new RegExp(filters.name, 'i');
+      }
+
+      if (filters.height) {
+        query.height = filters.height;
+      }
+
+      const results = await this.peopleModel.find(query);
 
       if (results.length === 0) {
-        throw new HttpException('No people found with the specified filters', HttpStatus.NOT_FOUND);
+        throw new HttpException(
+          'No people found with the specified filters',
+          HttpStatus.NOT_FOUND,
+        );
       }
-      return results
+      return results;
     } catch (error) {
-      throw new HttpException(error.message,error.statusCode);
+      throw new HttpException(error.message, error.statusCode);
     }
   }
   async findByIdPeople(id: string) {
     try {
       const result = await this.peopleModel.findById(id);
-      
-     
+
       if (!result) {
         throw new HttpException('Person not found', HttpStatus.NOT_FOUND);
       }
-  
+
       return result;
     } catch (error) {
-     
       throw new HttpException(
-        error instanceof HttpException ? error.getResponse() : 'Error fetching people by ID',
-        error instanceof HttpException ? error.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
+        error instanceof HttpException
+          ? error.getResponse()
+          : 'Error fetching people by ID',
+        error instanceof HttpException
+          ? error.getStatus()
+          : HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
-  
+
   async search(query?: string, limit: number = 10, offset: number = 0) {
     try {
-        const filter: any = {};
+      const filter: any = {};
 
-        // Si se proporciona un query, filtra por nombre
-        if (query) {
-            filter.name = new RegExp(query, 'i'); // Utiliza expresión regular para hacer la búsqueda insensible a mayúsculas
-        }
+      if (query) {
+        filter.name = new RegExp(query, 'i'); //Expresión regular para hacer la búsqueda insensible a mayúsculas
+      }
 
-        // Realiza la búsqueda en la base de datos
-        return this.peopleModel
-            .find(filter) // Filtra usando el objeto filter
-            .skip(offset) // Ignora los primeros `offset` resultados
-            .limit(limit); // Limita los resultados a `limit`
+      return this.peopleModel.find(filter).skip(offset).limit(limit);
     } catch (error) {
-        throw new HttpException('Error searching people', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error searching people',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-}
-
+  }
 
   @Cron('0 0 * * *')
   async syncPeople() {
     try {
       console.log('Sincronizando datos de People...');
       const peopleData = await this.fetchFromSwapi();
-      console.log({peopleData})
+      console.log({ peopleData });
       return await this.saveToDatabase(peopleData);
     } catch (error) {
-      throw new HttpException('Error syncing people data', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error syncing people data',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

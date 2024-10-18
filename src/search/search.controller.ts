@@ -1,4 +1,10 @@
-import { Controller, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PeopleService } from '../people/people.service';
 import { FilmsService } from '../films/films.service';
 import { StarshipsService } from '../starships/starships.service';
@@ -19,8 +25,6 @@ export class SearchController {
     @Query('limit') limit: number = 10,
     @Query('offset') offset: number = 0,
   ) {
-   
-
     const [people, films, starships, planets] = await Promise.all([
       this.peopleService.search(query, limit, offset),
       this.filmsService.search(query, limit, offset),

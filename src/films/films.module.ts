@@ -8,11 +8,12 @@ import { Film, FilmSchema } from './films.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Film.name, schema: FilmSchema }]), 
-    HttpModule, 
-    ScheduleModule.forRoot(),  ],
+    MongooseModule.forFeature([{ name: Film.name, schema: FilmSchema }]),
+    HttpModule,
+    ScheduleModule.forRoot(),
+  ],
   providers: [FilmsService],
   controllers: [FilmsController],
-  exports: [FilmsService, MongooseModule]
+  exports: [FilmsService, MongooseModule],
 })
 export class FilmsModule {}

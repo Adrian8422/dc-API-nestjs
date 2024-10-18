@@ -14,23 +14,26 @@ export class StarshipsService {
   ) {}
   async fetchFromSwapi() {
     try {
-      const response = await lastValueFrom(this.httpService.get('https://swapi.dev/api/starships'));
+      const response = await lastValueFrom(
+        this.httpService.get('https://swapi.dev/api/starships'),
+      );
       const peopleData = response.data.results;
 
-      // Agregamos la URL de imagen para cada personaje
       return peopleData.map((person, index) => ({
         ...person,
         image: `https://starwars-visualguide.com/assets/img/starships/${index + 1}.jpg`,
       }));
     } catch (error) {
-      throw new HttpException('Error fetching data from SWAPI', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error fetching data from SWAPI',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
- 
   async saveToDatabase(starshipData: any[]) {
     try {
-      await this.starshipModel.deleteMany(); 
+      await this.starshipModel.deleteMany();
       return this.starshipModel.insertMany(starshipData);
     } catch (error) {
       throw new HttpException(
@@ -40,7 +43,6 @@ export class StarshipsService {
     }
   }
 
- 
   async allStarship(filters: { name?: string; passengers?: number }) {
     try {
       const query: any = {};
@@ -50,7 +52,7 @@ export class StarshipsService {
       }
 
       if (filters.passengers) {
-        query.passengers = filters.passengers; 
+        query.passengers = filters.passengers;
       }
 
       const results = await this.starshipModel.find(query);
@@ -75,7 +77,6 @@ export class StarshipsService {
       }
       return result;
     } catch (error) {
-     
       throw new HttpException(
         error instanceof HttpException
           ? error.getResponse()
@@ -88,24 +89,21 @@ export class StarshipsService {
   }
   async search(query?: string, limit: number = 10, offset: number = 0) {
     try {
-        const filter: any = {};
+      const filter: any = {};
 
-        // Si se proporciona un query, filtra por nombre
-        if (query) {
-            filter.name = new RegExp(query, 'i'); // Utiliza expresión regular para hacer la búsqueda insensible a mayúsculas
-        }
+      if (query) {
+        filter.name = new RegExp(query, 'i');
+      }
 
-        // Realiza la búsqueda en la base de datos
-        return this.starshipModel
-            .find(filter) // Filtra usando el objeto filter
-            .skip(offset) // Ignora los primeros `offset` resultados
-            .limit(limit); // Limita los resultados a `limit`
+      return this.starshipModel.find(filter).skip(offset).limit(limit);
     } catch (error) {
-        throw new HttpException('Error searching people', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error searching people',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-}
+  }
 
-  
   @Cron('0 0 * * *')
   async syncStarship() {
     try {

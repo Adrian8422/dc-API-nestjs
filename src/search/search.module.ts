@@ -11,7 +11,13 @@ import { StarshipsModule } from 'src/starships/starships.module';
 import { PlanetsModule } from 'src/planets/planets.module';
 
 @Module({
-  imports:[PeopleModule,FilmsModule,StarshipsModule,PlanetsModule,HttpModule],
+  imports: [
+    PeopleModule,
+    FilmsModule,
+    StarshipsModule,
+    PlanetsModule,
+    HttpModule,
+  ],
   controllers: [SearchController],
   providers: [PeopleService, FilmsService, StarshipsService, PlanetsService],
 })

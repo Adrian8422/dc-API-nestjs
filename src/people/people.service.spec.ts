@@ -48,37 +48,36 @@ describe('PeopleService', () => {
 
   describe('fetchFromSwapi', () => {
     it('should fetch data from SWAPI and return results', async () => {
-      // Simulamos una respuesta completa de Axios
       const mockApiResponse: AxiosResponse = {
         data: { results: [{ name: 'Luke Skywalker' }] },
         status: 200,
         statusText: 'OK',
         headers: {},
         config: {
-          headers: undefined
+          headers: undefined,
         },
       };
 
-      // Mockeamos el httpService.get para que devuelva el observable
       jest.spyOn(httpService, 'get').mockReturnValue(of(mockApiResponse));
 
       const result = await service.fetchFromSwapi();
 
-      // Verificamos que los datos retornados sean los esperados
       expect(result).toEqual(mockApiResponse.data.results);
 
-      // Verificamos que se llame a la API correcta
-      expect(httpService.get).toHaveBeenCalledWith('https://swapi.dev/api/people');
+      // Verifico que se llame a la API correcta
+      expect(httpService.get).toHaveBeenCalledWith(
+        'https://swapi.dev/api/people',
+      );
     });
 
     it('should throw an HttpException when there is an error', async () => {
-      // Simulamos un error en la llamada HTTP usando throwError
-      jest.spyOn(httpService, 'get').mockReturnValue(throwError(() => new Error('Failed to fetch')));
+      // Simulo un error en la llamada HTTP usando throwError
+      jest
+        .spyOn(httpService, 'get')
+        .mockReturnValue(throwError(() => new Error('Failed to fetch')));
 
-      // Verificamos que se arroje el HttpException correcto
+      // Verifico que se arroje el HttpException correcto
       await expect(service.fetchFromSwapi()).rejects.toThrow(HttpException);
     });
   });
-  
-  // Resto de los tests...
 });

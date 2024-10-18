@@ -48,7 +48,7 @@ export class Film {
   url: string;
 
   @Prop()
-  image:string
+  image: string;
 }
 
 export const FilmSchema = SchemaFactory.createForClass(Film);

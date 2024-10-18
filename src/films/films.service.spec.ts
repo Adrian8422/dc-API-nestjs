@@ -11,11 +11,11 @@ describe('FilmsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule], // Se importa para solicitudes HTTP si es necesario
+      imports: [HttpModule],
       providers: [
         FilmsService,
         {
-          provide: getModelToken(Film.name), // Mockeamos el modelo Film
+          provide: getModelToken(Film.name),
           useValue: {
             find: jest.fn(),
             findById: jest.fn(),
@@ -33,6 +33,4 @@ describe('FilmsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  // Puedes añadir más tests según lo que quieras probar
 });

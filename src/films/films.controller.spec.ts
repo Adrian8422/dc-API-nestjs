@@ -44,7 +44,7 @@ describe('FilmsController', () => {
     it('should call filmsService.findByIdFilm with correct ID', async () => {
       const id = '1';
       await controller.findById(id);
-      expect(service.findByIdFilm).toHaveBeenCalledWith(id); 
+      expect(service.findByIdFilm).toHaveBeenCalledWith(id);
     });
   });
 

@@ -7,13 +7,15 @@ import { HttpModule } from '@nestjs/axios';
 import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{ name:Starship.name, schema: StarshipSchema }]), 
-    HttpModule, 
-    ScheduleModule.forRoot(), 
+  imports: [
+    MongooseModule.forFeature([
+      { name: Starship.name, schema: StarshipSchema },
+    ]),
+    HttpModule,
+    ScheduleModule.forRoot(),
   ],
   providers: [StarshipsService],
   controllers: [StarshipsController],
-  exports: [StarshipsService, MongooseModule]
+  exports: [StarshipsService, MongooseModule],
 })
 export class StarshipsModule {}

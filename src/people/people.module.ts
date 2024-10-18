@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';  
+import { MongooseModule } from '@nestjs/mongoose';
 import { PeopleService } from './people.service';
 import { PeopleController } from './people.controller';
 import { People, PeopleSchema } from './people.schema';
 
-import { HttpModule } from '@nestjs/axios'; 
-import { ScheduleModule } from '@nestjs/schedule'; 
+import { HttpModule } from '@nestjs/axios';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: People.name, schema: PeopleSchema }]), 
-    HttpModule, 
-    ScheduleModule.forRoot(), 
+    MongooseModule.forFeature([{ name: People.name, schema: PeopleSchema }]),
+    HttpModule,
+    ScheduleModule.forRoot(),
   ],
-  providers: [PeopleService], 
+  providers: [PeopleService],
   controllers: [PeopleController],
-  exports: [PeopleService, MongooseModule]
+  exports: [PeopleService, MongooseModule],
 })
 export class PeopleModule {}
