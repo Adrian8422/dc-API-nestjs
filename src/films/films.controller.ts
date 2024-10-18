@@ -5,7 +5,8 @@ import { GetFilmsDto } from './dto/get-films.dto';
 @Controller('films')
 export class FilmsController {
   constructor(private filmsService: FilmsService) {}
-
+  
+  @Get()
   GetAllFilms(@Query() query: GetFilmsDto) {
     return this.filmsService.allFilms(query);
   }
