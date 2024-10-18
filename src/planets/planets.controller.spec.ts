@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PlanetsController } from './planets.controller';
 import { PlanetsService } from './planets.service';
 import { HttpModule } from '@nestjs/axios';
+import { GetAllPlanetsQueryDto } from './dto/get-planets.dto';
 
 describe('PlanetsController', () => {
   let controller: PlanetsController;
@@ -34,8 +35,8 @@ describe('PlanetsController', () => {
 
   describe('GetAllFilms', () => {
     it('should call planetsService.allPlanets with correct parameters', async () => {
-      const query = { name: 'Tatooine', climate: 'arid' };
-      await controller.GetAllFilms(query.name, query.climate);
+      const query:GetAllPlanetsQueryDto = { name: 'Tatooine', climate: 'arid' };
+      await controller.GetAllPlanets(query);
       expect(service.allPlanets).toHaveBeenCalledWith(query);
     });
   });

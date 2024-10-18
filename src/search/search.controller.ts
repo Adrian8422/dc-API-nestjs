@@ -9,6 +9,7 @@ import { PeopleService } from '../people/people.service';
 import { FilmsService } from '../films/films.service';
 import { StarshipsService } from '../starships/starships.service';
 import { PlanetsService } from '../planets/planets.service';
+import { GlobalSearchQueryDto } from './dto/search.dto';
 
 @Controller('search')
 export class SearchController {
@@ -20,11 +21,9 @@ export class SearchController {
   ) {}
 
   @Get()
-  async globalSearch(
-    @Query('query') query?: string,
-    @Query('limit') limit: number = 10,
-    @Query('offset') offset: number = 0,
-  ) {
+  async globalSearch(@Query() queryDto: GlobalSearchQueryDto) {
+    const { query, limit, offset } = queryDto;
+
     const [people, films, starships, planets] = await Promise.all([
       this.peopleService.search(query, limit, offset),
       this.filmsService.search(query, limit, offset),

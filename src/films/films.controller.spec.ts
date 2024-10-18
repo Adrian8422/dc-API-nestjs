@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FilmsController } from './films.controller';
 import { FilmsService } from './films.service';
+import { GetFilmsDto } from './dto/get-films.dto';
 
 describe('FilmsController', () => {
   let controller: FilmsController;
@@ -34,8 +35,8 @@ describe('FilmsController', () => {
 
   describe('GetAllFilms', () => {
     it('should call filmsService.allFilms with correct parameters', async () => {
-      const query = { title: 'A New Hope', director: 'George Lucas' };
-      await controller.GetAllFilms(query.title, query.director);
+      const query:GetFilmsDto = { title: 'A New Hope', director: 'George Lucas' };
+      await controller.GetAllFilms(query);
       expect(service.allFilms).toHaveBeenCalledWith(query); // Verificación argumentos llamados
     });
   });
@@ -44,7 +45,7 @@ describe('FilmsController', () => {
     it('should call filmsService.findByIdFilm with correct ID', async () => {
       const id = '1';
       await controller.findById(id);
-      expect(service.findByIdFilm).toHaveBeenCalledWith(id);
+      expect(service.findByIdFilm).toHaveBeenCalledWith(id); 
     });
   });
 

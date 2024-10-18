@@ -1,15 +1,14 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PlanetsService } from './planets.service';
+import { GetAllPlanetsQueryDto } from './dto/get-planets.dto';
 
 @Controller('planets')
 export class PlanetsController {
   constructor(private planetsService: PlanetsService) {}
 
   @Get()
-  GetAllFilms(
-    @Query('name') name?: string,
-    @Query('climate') climate?: string,
-  ) {
+  async GetAllPlanets(@Query() query: GetAllPlanetsQueryDto) {
+    const { name, climate } = query;
     return this.planetsService.allPlanets({ name, climate });
   }
   @Get(':id')

@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PeopleService } from './people.service';
+import { GetAllPeopleQueryDto } from './dto/get-people.dto';
 
 @Controller('people')
 export class PeopleController {
@@ -10,10 +11,8 @@ export class PeopleController {
     return this.peopleService.syncPeople();
   }
   @Get()
-  async findAll(
-    @Query('name') name?: string,
-    @Query('height') height?: number,
-  ) {
+  async findAll(@Query() query: GetAllPeopleQueryDto) {
+    const { name, height } = query;
     return this.peopleService.allPeople({ name, height });
   }
 

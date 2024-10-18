@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { StarshipsService } from './starships.service';
+import { GetAllStarshipsQueryDto } from './dto/get-starships.dto';
 
 @Controller('starships')
 export class StarshipsController {
@@ -7,9 +8,9 @@ export class StarshipsController {
 
   @Get()
   GetAllStarships(
-    @Query('name') name?: string,
-    @Query('passengers') passengers?: number,
+    @Query('name') query:GetAllStarshipsQueryDto
   ) {
+    const { name, passengers } = query;
     return this.starshipService.allStarship({ name, passengers });
   }
   @Get(':id')

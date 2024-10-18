@@ -71,7 +71,7 @@ export class FilmsService {
     }
   }
 
-  async findByIdFilm(id: string) {
+  async findByIdFilm(id) {
     try {
       const result = await this.filmModel.findById(id);
       if (!result) {

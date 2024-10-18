@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { StarshipsController } from './starships.controller';
 import { StarshipsService } from './starships.service';
 import { HttpModule } from '@nestjs/axios';
+import { GetAllStarshipsQueryDto } from './dto/get-starships.dto';
 
 describe('StarshipsController', () => {
   let controller: StarshipsController;
@@ -35,8 +36,8 @@ describe('StarshipsController', () => {
 
   describe('GetAllStarships', () => {
     it('should call starshipService.allStarship with correct parameters', async () => {
-      const query = { name: 'CR90 corvette', passengers: 600 };
-      await controller.GetAllStarships(query.name, query.passengers);
+      const query :GetAllStarshipsQueryDto = { name: 'CR90 corvette', passengers: 600 };
+      await controller.GetAllStarships(query);
       expect(service.allStarship).toHaveBeenCalledWith(query);
     });
   });

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PeopleController } from './people.controller';
 import { PeopleService } from './people.service';
+import { GetAllPeopleQueryDto } from './dto/get-people.dto';
 
 describe('PeopleController', () => {
   let controller: PeopleController;
@@ -42,8 +43,8 @@ describe('PeopleController', () => {
 
   describe('findAll', () => {
     it('should call peopleService.allPeople with correct parameters', async () => {
-      const query = { name: 'Luke Skywalker', height: 172 };
-      await controller.findAll(query.name, query.height);
+      const query:GetAllPeopleQueryDto = { name: 'Luke Skywalker', height: 172 };
+      await controller.findAll(query);
       expect(service.allPeople).toHaveBeenCalledWith(query);
     });
   });
